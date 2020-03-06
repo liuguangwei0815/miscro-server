@@ -1,0 +1,37 @@
+env:
+  dev1port: 7051
+  dev2port: 7052
+
+#服务的名称
+spring:
+  profiles:
+    active:
+    - dev1
+  #consul 配置 
+    #服务的名称
+  application:
+    name: misco-consul-product
+  jpa:
+    show-sql: true
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        register: true #注册到consul
+        prefer-ip-address: true #以ip进行注册
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}  #实例名称 注册到consul的名称  不要以ip + 端口 这样子会报错de
+        service-name: ${spring.application.name}
+        ip-address: ${spring.cloud.client.ip-address}
+        port: ${server.port}
+    
+  
+  
+
+    
+
+  
+  
+    
+
+

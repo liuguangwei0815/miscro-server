@@ -1,0 +1,29 @@
+server:
+  port: ${env.dev2port}
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOONE${server.port}
+#服务的名称
+spring:
+  application:
+    name: misco-product
+  jpa:
+    show-sql: true
+    
+
+eureka:
+  instance:
+    prefer-ip-address: true #ip注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #ip展示
+    #服务提供者默认30s 心跳间隔 ，90s 内如无心跳则 任务与我宕机了 需要修改时间间隔
+    lease-renewal-interval-in-seconds: 2 #心跳间隔
+    lease-expiration-duration-in-seconds: 5 #10s内 如无心跳 任务宕机
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+
+      
+    
+
+

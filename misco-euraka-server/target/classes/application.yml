@@ -1,0 +1,15 @@
+#启用以某个后缀的配置文件
+spring:
+  profiles:
+    active:
+    - dev2 #启用application-dev1.yml 配置
+    
+#配置环境端口
+evn:
+  dev1port: 7048
+  dev2port: 7049
+
+      
+    
+
+

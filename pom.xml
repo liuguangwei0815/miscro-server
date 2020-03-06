@@ -95,6 +95,12 @@
 	</build>
 	<modules>
 		<module>parent-misco-server</module>
+		<module>misco-product</module>
+		<module>misco-order</module>
+		<module>misco-eureka-server</module>
+		<module>misco-auto-import</module>
+		<module>misco-consul-product</module>
+		<module>misco-consul-order</module>
 	</modules>
 
 </project>

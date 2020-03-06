@@ -1,0 +1,10 @@
+server:
+  port: ${env.dev1port}
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOPRODUCTCONSUL${env.dev1port}
+       
+      
+
+

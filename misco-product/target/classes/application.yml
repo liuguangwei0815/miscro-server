@@ -1,0 +1,11 @@
+#服务的名称
+spring:
+  profiles:
+    active:
+    - dev2
+env:
+  dev1port: 7046
+  dev2port: 7050
+    
+
+

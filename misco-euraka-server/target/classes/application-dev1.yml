@@ -1,0 +1,11 @@
+server:
+  port: ${evn.dev1port}
+#服务的名称
+spring:
+  application:
+    name: misco-eureka-server
+eureka:
+  client:
+    #暴露给服务端和消费端的地址，同时向另外一个注册中心 相互注册和拉取，默认注册和拉取数据 是true的 ，
+    service-url:
+      defaultZone: http://localhost:${evn.dev2port}/eureka/

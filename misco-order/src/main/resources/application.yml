@@ -1,0 +1,51 @@
+server:
+  port: 7047
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOORDER 
+#服务的名称
+spring:
+  application:
+    name: misco-order
+  jpa:
+    show-sql: true
+    
+#设置负载机制 默认是轮询
+misco-product:
+  ribbon:
+    #NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #举例 这个是随机负载
+    ConnectTimeout: 250 #单位是毫秒 连接超时时间  如超过 自动切换下一个服务实例
+    ReadTimeout: 1000 #单位是毫秒 返回数据等待时间  如超过 自动切换下一个服务实例
+    OkToRetryOnAllOperations: true #是否对所有操作进行重试
+    MaxAutoRetries: 1 #对当前实例重试次数
+    MaxAutoRetriesNextServer: 1 #重试切换实例次数
+
+#Feign 配置
+feign:
+  client:
+    config:
+      misco-product: #服务名称
+          loggerLevel:  FULL # NONE （不记录任何日志（默认值） ） BASE （仅记录请求方法、URL、响应状态代码以及执行时间 ）  HEADERS（记录请求和响应的header。 ） FULL 所有信息 （记录请求和响应的header、body和元数 据。#）， 
+logging:
+  level:
+    com.misco.server.feign.ProductFeign: debug  #针对这个类进行日志打印
+      
+          
+      
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+  instance:
+    prefer-ip-address: true # 使用ip进行注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #向注册中心注册的服务ID
+      #服务提供者默认30s 心跳间隔 ，90s 内如无心跳则 任务与我宕机了 需要修改时间间隔
+    lease-renewal-interval-in-seconds: 5 #心跳间隔
+    lease-expiration-duration-in-seconds: 10 #10s内 如无心跳 任务宕机
+    
+      
+    
+
+
