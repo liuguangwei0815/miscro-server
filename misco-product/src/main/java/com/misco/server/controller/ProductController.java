@@ -87,4 +87,17 @@ public class ProductController {
 		tbProductService.delete(id);
 		return "删除成功";
 	}
+	
+	@GetMapping("/wait/{id:\\d+}")
+	public TbProduct findByIdwait(@PathVariable Long id) {
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		TbProduct tb = tbProductService.findById(id);
+		tb.setProductName("调用的IP:"+ip+"端口号为:"+port);
+		return tb;
+	}
+	
 }

@@ -1,0 +1,39 @@
+server:
+  port: 7058
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOZUUL
+#服务的名称
+spring:
+  application:
+    name: misco-zuul
+    
+#配置zuul路由
+zuul:
+  routes:
+    misco-product: #随便定义 路由id
+      path: /misco-product/*  #路径规则如果符合会将请求转让到下面的url ，如访问localhost:7058/misco-product/xxxxxx 那么实际就是http://localhost:7046/xxxx
+      #url:  http://localhost:7046 #实际请求路径  这里不灵活 如果这个微服务有上百个  怎么办 zuul 支持面向服务转发 
+      service-id: misco-product  #zuul 直接去erurke 获取情况服务 获取其ip和端口 和转发 ，  zuul 去eureka 拉取misco-product 服务列表 获取ip和端口进行转发
+      #还有简化配置
+      #1、zuul 默认映射路基和我们请求的服务名称一致 比如 我们微服务为misco-order 那么 我们什么都不用配置 只需要访问 zuul ip：端口/misco-orderxxx 那么网关也会帮我们转发
+      #2、当路由id和我们的微服务的服务名称一致时候 比如我们要配置微服务为misco-order 那么我我们只需要 misco-order: /misco-order/** 就可以了
+      #3、就是我们上岸写的哪一种
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+  instance:
+    prefer-ip-address: true # 使用ip进行注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #向注册中心注册的服务ID
+      #服务提供者默认30s 心跳间隔 ，90s 内如无心跳则 任务与我宕机了 需要修改时间间隔
+    lease-renewal-interval-in-seconds: 5 #心跳间隔
+    lease-expiration-duration-in-seconds: 10 #10s内 如无心跳 任务宕机
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

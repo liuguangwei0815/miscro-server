@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.misco.server.dto.TbProduct;
 import com.misco.server.feign.ProductFeign;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,5 +72,53 @@ public class OrderController {
 	public TbProduct feign(@PathVariable Long id) {
 		return productFeign.findById(id);
 	}
+
+	// 进行模拟并发 当请求线程数大于容器的最大线程数，出现的服务器不可用现象 记得 temlate 不能添加ribbon注解 否者请求不了
+	@GetMapping("/buy/bf/{id:\\d+}")
+	public String bing1(@PathVariable Long id) {
+		return "只返回字符串";
+	}
+
+	// 进行模拟并发 当请求线程数大于容器的最大线程数，出现的服务器不可用现象 记得 temlate 不能添加ribbon注解 否者请求不了
+	// 如果添加了ribbon 复制 需要通过注册中心进行
+	@GetMapping("/buy/bf1/{id:\\d+}")
+	public TbProduct bing2(@PathVariable Long id) {
+		return restTemplate.getForObject("http://localhost:7046/product/wait/1", TbProduct.class);
+	}
+
+	// 进行Hystrix
+	@GetMapping("/buy/hystrix/{id:\\d+}")
+	@HystrixCommand(fallbackMethod = "ghystrixfallbackMethod")
+	public TbProduct ghystrix(@PathVariable Long id) {
+		String serviceName = "misco-product";
+		return restTemplate.getForObject("http://" + serviceName + "/product/wait/1", TbProduct.class);
+	}
+
+	public TbProduct ghystrixfallbackMethod(@PathVariable Long id) {
+		return new TbProduct("这是降级内容提示");
+	}
+
+	// feign 进行熔断
+	@GetMapping("/buy/feign/hystrix/{id:\\d+}")
+	public TbProduct feignhystrix(@PathVariable Long id) {
+		return productFeign.waitfindById(id);
+	}
+
+	// hystrix 熔断器 进行测试  //1.配置文件将阈值进行调整 （心跳时间，触发熔断的请求数，失败占比），模拟 当1 正常 2抛出错误
+	@GetMapping("/buy/curcuit/{id:\\d+}")
+	@HystrixCommand(fallbackMethod = "curcuitBreakerfall")
+	public TbProduct curcuitBreaker(@PathVariable Long id) {
+		if(id!=1) {
+			throw new RuntimeException("模拟服务异常 触发熔断");
+		}
+		String serviceName = "misco-product";
+		return restTemplate.getForObject("http://" + serviceName + "/product/1", TbProduct.class);
+	}
+	
+	public TbProduct curcuitBreakerfall(@PathVariable Long id){
+		return new TbProduct("熔断了嘿嘿");
+	}
+	
+	
 
 }

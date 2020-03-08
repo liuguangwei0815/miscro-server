@@ -1,0 +1,107 @@
+evn:
+  dev1port: 7058
+  dev2port: 7059
+
+#服务的名称
+spring:
+  application:
+    name: misco-gateway
+  profiles:
+    active:
+    - dev2 #激活的文件
+    
+  #配置zipkin
+  zipkin:
+    #base-url: http://localhost:9411/ #zipkin的服务的地址  现在改为为rabbit 所以注释掉
+    sender:
+      #type: web  #已http的请求方式发送到我们的zipkin server
+      type: rabbit #发送方式为rabbit
+  sleuth:
+    sampler:
+      probability: 1 #采样比例 就是链路的比例 1 标识全部 0.1 标识10分一的比例采集
+  rabbitmq: #配置rabbitmq
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    listener: #重试策略
+      direct:
+        retry:
+          enabled: true
+      simple:
+        retry:
+          enabled: true 
+      
+  cloud:
+    gateway:
+    #订单微服务路由
+      routes:
+      - id: misco-order #路由id 自定义
+       # uri: http://localhost:7046  #这种配置只能配置一个不合适，需要动态路由 面向服务路由
+        uri:  lb://misco-order #lb:// 表示去注册中心去拉取 
+        predicates:
+        # 这个和zuul 输入http://localhost:7046/product/xxx 会跳转到uri ，因为他是按照   以product 开头的路径 会匹配 
+       # - Path=/product/** 
+      #如果我们需要和zuul http://localhost:7046/api-product/product/xxx 相同的路径的的  首先需要注释上面的
+        - Path=/api-order/**
+        filters: 
+        ##gateway 自己的过滤器  路径  ip 参数=========start（测试sentinel 限流 在java代码编写 先注注释掉） 
+        #- name: RequestRateLimiter #gateway 提供的限流过滤器 
+          #args:
+            #key-resolver: '#{@pathKeyResolver}' #prEl 获取这个过滤条件器 比如这个列返回的是路径 或者 参数 或者ip等 那么 这个路径 。。ip、就会放到令牌桶离去
+            #redis-rate-limiter.replenishRate: 1 #令牌桶中的美妙能放进去的令牌数 频率 每秒1个令牌 
+            #redis-rate-limiter.burstCapacity: 3 # 表示这个redis令牌桶的总大小只有3个 超过这个值去拒绝qps 或者等待
+         ##gateway 自己的过滤器  路径  ip 参数========= end
+         
+        #配置路由有经过上面的path http://localhost:7046/api-product/product/xxx 然后转为 http://localhost:7046/product/xxx
+        - RewritePath=/api-order/(?<segment>.*),/$\{segment}   #gateway 提供的修改路径的过滤器
+      
+      #产品微服务路由
+      - id: misco-product #路由id 自定义
+       # uri: http://localhost:7046  #这种配置只能配置一个不合适，需要动态路由 面向服务路由
+        uri:  lb://misco-product #lb:// 表示去注册中心去拉取 
+        predicates:
+        # 这个和zuul 输入http://localhost:7046/product/xxx 会跳转到uri ，因为他是按照   以product 开头的路径 会匹配 
+       # - Path=/product/** 
+      #如果我们需要和zuul http://localhost:7046/api-product/product/xxx 相同的路径的的  首先需要注释上面的
+        - Path=/api-product/**
+        filters: 
+        ##gateway 自己的过滤器  路径  ip 参数=========start（测试sentinel 限流 在java代码编写 先注注释掉） 
+        #- name: RequestRateLimiter #gateway 提供的限流过滤器 
+          #args:
+            #key-resolver: '#{@pathKeyResolver}' #prEl 获取这个过滤条件器 比如这个列返回的是路径 或者 参数 或者ip等 那么 这个路径 。。ip、就会放到令牌桶离去
+            #redis-rate-limiter.replenishRate: 1 #令牌桶中的美妙能放进去的令牌数 频率 每秒1个令牌 
+            #redis-rate-limiter.burstCapacity: 3 # 表示这个redis令牌桶的总大小只有3个 超过这个值去拒绝qps 或者等待
+         ##gateway 自己的过滤器  路径  ip 参数========= end
+         
+        #配置路由有经过上面的path http://localhost:7046/api-product/product/xxx 然后转为 http://localhost:7046/product/xxx
+        - RewritePath=/api-product/(?<segment>.*),/$\{segment}   #gateway 提供的修改路径的过滤器
+      discovery:
+        locator:
+          enabled: true #开启按照服务名称来进行跳转
+          lower-case-service-id: true #获取的名称名称是大写的需要转换为小写
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+  instance:
+    prefer-ip-address: true # 使用ip进行注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #向注册中心注册的服务ID
+      #服务提供者默认30s 心跳间隔 ，90s 内如无心跳则 任务与我宕机了 需要修改时间间隔
+    lease-renewal-interval-in-seconds: 5 #心跳间隔
+    lease-expiration-duration-in-seconds: 10 #10s内 如无心跳 任务宕机
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        
+        
+#开启sprig mvc 和 sleuth 的日志
+logging:
+  level:
+    root: info
+    org.springframework.web.servlet.DispatcherServlet: debug
+    org.springframework.cloud.sleuth: debug
+     
+    

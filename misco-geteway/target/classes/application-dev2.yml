@@ -1,0 +1,7 @@
+server:
+  port: ${evn.dev2port}
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOGATEWAY${server.port}
+

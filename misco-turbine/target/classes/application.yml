@@ -1,0 +1,23 @@
+server:
+  port: 7053
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOOTURBE
+  
+#服务的名称
+spring:
+  application:
+    name: misco-turbine
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+
+turbine:
+  app-config: misco-order #多个监控需要逗号隔开
+  cluster-name-expression: "'default'"
