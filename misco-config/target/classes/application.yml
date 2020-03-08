@@ -1,0 +1,12 @@
+server:
+  port: 7063
+#服务的名称
+spring:
+  application:
+    name: misco-config
+  cloud:
+    config:
+      server:
+        git:
+          #uri: https://gitee.com/liuwei0815/config-reposity.git
+          uri: https://github.com/liuwei0815/misco-config.git

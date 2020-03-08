@@ -116,6 +116,7 @@
 		<module>misco-gateway</module>
 		<module>misco-stream-producer</module>
 		<module>misco-stream-consumer</module>
+		<module>misco-config</module>
 	</modules>
 
 </project>

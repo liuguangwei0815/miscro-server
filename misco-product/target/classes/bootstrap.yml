@@ -1,0 +1,14 @@
+env:
+  dev1port: 7046
+  dev2port: 7050
+
+spring:
+  cloud:
+    config:
+      name:  misco-product #应用名称 需要对应git 文件 名称前半部分
+      profile:  dev1 #git 文件名称后半部分
+      label: master #git 的分支
+      uri: http://localhost:7063   #config server地址
+
+    
+

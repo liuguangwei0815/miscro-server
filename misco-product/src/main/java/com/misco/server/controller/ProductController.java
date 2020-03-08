@@ -37,10 +37,21 @@ public class ProductController {
 	@Value("${server.port:UNKONW}")
 	private String port;
 	
+	//自定义值 测试配置中心的值
+	@Value("${testname:UNKONW}")
+	private String testConfigValue;
+	
 	@GetMapping
 	public List<TbProduct> findAll() {
 		return tbProductService.findAll();
 	}
+	
+	//测试配置中心的值是否动态改变
+	@GetMapping("test")
+	public String configtest() {
+		return testConfigValue;
+	}
+	
 	
 	/**
 	 * 模拟短暂不可用 重试机制

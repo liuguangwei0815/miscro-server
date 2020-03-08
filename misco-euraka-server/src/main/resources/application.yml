@@ -2,7 +2,7 @@
 spring:
   profiles:
     active:
-    - dev1 #启用application-dev1.yml 配置
+    - dev2 #启用application-dev1.yml 配置
 #配置环境端口
 evn:
   dev1port: 7048
