@@ -21,7 +21,7 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
-		    <dependency>
+			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring.boot.version}</version>
@@ -42,6 +42,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>2.1.0.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -101,6 +110,12 @@
 		<module>misco-auto-import</module>
 		<module>misco-consul-product</module>
 		<module>misco-consul-order</module>
+		<module>misco-turbine</module>
+		<module>misco-order-sentinel</module>
+		<module>misco-zuul</module>
+		<module>misco-gateway</module>
+		<module>misco-stream-producer</module>
+		<module>misco-stream-consumer</module>
 	</modules>
 
 </project>
