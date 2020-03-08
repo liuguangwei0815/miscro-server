@@ -1,25 +1,10 @@
-server:
-  port: 7061
-  servlet:
-   session:
-     cookie:
-       name: SESSIONMISCOCONCUMER
-  
-#服务的名称
+env:
+  dev1port: 7061
+  dev2port: 7062
+
 spring:
-  application:
-    name: misco-stream-consumer
-  rabbitmq: #配置rabbitmq
-    addresses: 127.0.0.1
-    username: guest
-    password: guest
-  cloud:
-    stream:
-      bindings: 
-        input: #这个和output 和 input 是内置对象 这个output一样 必须相同名字 
-          destination: itcast-default #自定义消息发送目的地 在rabbit 发送到一个叫做itcast-default 的交换机
-      binders: #配置绑定器
-        defaultRabbit:
-          type: rabbit 
-        
+  profiles:
+    active:
+    - dev2
+ 
         
