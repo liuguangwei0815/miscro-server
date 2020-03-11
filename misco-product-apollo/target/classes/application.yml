@@ -1,0 +1,14 @@
+server:
+  port: 7046
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOONE7046
+#服务的名称
+spring:
+  application:
+    name: misco-product-apollo
+    
+testname: dev1
+
+

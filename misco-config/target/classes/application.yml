@@ -1,12 +1,37 @@
-server:
-  port: 7063
-#服务的名称
+evn:
+  dev1port: 7064
+  dev2port: 7065
+  
 spring:
-  application:
-    name: misco-config
+  profiles:
+    active:
+    - dev2
   cloud:
     config:
       server:
         git:
-          #uri: https://gitee.com/liuwei0815/config-reposity.git
-          uri: https://github.com/liuwei0815/misco-config.git
+          uri: https://gitee.com/liuwei0815/config-reposity.git
+          
+  rabbitmq:
+    addresses: 127.0.0.1
+    username: guest
+    password: guest
+    #服务的名称
+  application:
+    name: misco-config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh #服务点调用actuator/bus-refresh 就可以通知bus 发送请求个每个消费者 进行请求配置服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7048/eureka/,http://localhost:7049/eureka/ #以逗号分隔 有多少注册中心就写多少个
+  instance:
+    prefer-ip-address: true # 使用ip进行注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #向注册中心注册的服务ID
+      #服务提供者默认30s 心跳间隔 ，90s 内如无心跳则 任务与我宕机了 需要修改时间间隔
+    lease-renewal-interval-in-seconds: 5 #心跳间隔
+    lease-expiration-duration-in-seconds: 10 #10s内 如无心跳 任务宕机
+    

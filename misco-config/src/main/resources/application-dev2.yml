@@ -1,0 +1,8 @@
+server:
+  port: ${evn.dev2port}
+  servlet:
+   session:
+     cookie:
+       name: SESSIONCONFIG${server.port}
+
+

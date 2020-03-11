@@ -89,9 +89,16 @@ hystrix:
       circuitBreaker: 
         requestVolumeThreshold: 5 #触发熔断器的总的请求数 默认20
         sleepWindowInMilliseconds: 10000 # 默认是5s 心跳
-        errorThresholdPercentage: 50 #错误比例 默认50%
-        
-            
+        errorThresholdPercentage: 50 #错误比例 默认50% 
+ 
+apollo:
+  bootstrap:
+    enable: true
+  meta: http://127.0.0.1:5028
+app:
+  id: misco-order
+           
+name: zhagnshan
             
 management:
   endpoints:

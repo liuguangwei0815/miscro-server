@@ -117,6 +117,7 @@
 		<module>misco-stream-producer</module>
 		<module>misco-stream-consumer</module>
 		<module>misco-config</module>
+		<module>misco-product-apollo</module>
 	</modules>
 
 </project>

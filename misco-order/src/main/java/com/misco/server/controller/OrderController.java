@@ -4,6 +4,7 @@
 package com.misco.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order")
 @Slf4j
 public class OrderController {
-
+	
+	@Value("${name:UNKONE}")
+	private String name;
+	
 	// 通过
 	@Autowired
 	private DiscoveryClient discoveryClient;
@@ -38,6 +42,12 @@ public class OrderController {
 	// 通过feign 进行服务调用
 	@Autowired
 	private ProductFeign productFeign;
+	
+	
+	@GetMapping("/test")
+	public String teee() {
+		return name;
+	}
 
 	@GetMapping("/buy/{id:\\d+}")
 	public TbProduct getTbProduct(@PathVariable Long id) {
