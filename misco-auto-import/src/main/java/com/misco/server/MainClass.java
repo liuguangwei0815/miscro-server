@@ -16,5 +16,6 @@ public class MainClass {
 		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(MainClass.class);
 		User user = (User) ac.getBean("user");
 		log.info(user.toString());
+		
 	}
 }

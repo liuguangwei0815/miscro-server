@@ -1,0 +1,11 @@
+server:
+  port: 7058
+#服务的名称
+spring:
+  application:
+    name: misco-zuul
+    
+example:
+  service:
+    enabled: true
+      config： abc-des-dde,SSS-DRS-RE,SDR-SDFR-XXX

@@ -1,0 +1,10 @@
+server:
+  port: 7060
+#服务的名称
+spring:
+  application:
+    name: my-spring-boot-starter-test
+my:
+  hello:
+    prefix: 我
+    suffix: 你

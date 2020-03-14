@@ -1,0 +1,16 @@
+server:
+  port: 7053
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMISCOORDERCACHE
+#服务的名称
+spring:
+  application:
+    name: misco-cache
+logging:
+  level:
+    com.misco.server.mapper: debug
+    
+debug: true # 会打印
+    

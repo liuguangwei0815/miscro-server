@@ -1,0 +1,18 @@
+server:
+  port: 7066
+  servlet:
+   session:
+     cookie:
+       name: SESSIONMIROCKETMQPRODUCER
+  
+#服务的名称
+spring:
+  application:
+    name: misco-rocketmq
+            
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        
