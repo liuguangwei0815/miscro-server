@@ -1,6 +1,8 @@
 package com.misco.server;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -46,7 +48,7 @@ public class ProducerAndConsumerTestClass {
 	public void test1() throws MQClientException, UnsupportedEncodingException, RemotingException, MQBrokerException,
 			InterruptedException {
 		// 因为我们的生产和消费都是一个组 每个组默认有4个队列 所以我们在建立一个producer 需要指定组名
-		DefaultMQProducer producer = new DefaultMQProducer("producer_group");
+		DefaultMQProducer producer = new DefaultMQProducer("producer_group_cluster11");
 		// 设置注册地址中心 nameserver
 		//producer.setNamesrvAddr("192.168.2.168:9876");
 		//切换成rocketmq的地址
@@ -58,9 +60,14 @@ public class ProducerAndConsumerTestClass {
 		 * 用于特定的消息标识，通过这个tages 找到 keys:唯一标识，定位当前消息 body：消息
 		 * 
 		 */
-		Message message = new Message("Topic_demo_cu", "Tags", "key_1", "hellow".getBytes(RemotingHelper.DEFAULT_CHARSET));
+		List<Message> ll = new ArrayList<Message>();
+		for (int i = 0; i < 10; i++) {
+			Message message = new Message("Topic_demo_cluster_1111", "Tags", "key_1", (i+"-我是集群消息哈哈哈").getBytes(RemotingHelper.DEFAULT_CHARSET));
+			ll.add(message);
+		}
+		
 		// 发送消息
-		SendResult result = producer.send(message);
+		SendResult result = producer.send(ll);
 		System.out.println("发送成功结果：" + result.toString());
 		// 关闭
 		producer.shutdown();

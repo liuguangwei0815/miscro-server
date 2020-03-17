@@ -1,0 +1,13 @@
+verson: '3.3'
+services: 
+  app1:
+    image: liuwei.dockerhello
+    ports: 
+    - 7047:7047
+  app2:
+    image: liuwei.dockerhello
+    ports: 
+    - 7048:7047
+  
+  
+  

@@ -119,6 +119,7 @@
 		<module>misco-product-apollo</module>
 		<module>misco-cache</module>
 		<module>misco-rocketmq</module>
+		<module>misco-docker-hello</module>
 	</modules>
 
 </project>
