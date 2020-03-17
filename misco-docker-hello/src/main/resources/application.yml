@@ -1,5 +1,5 @@
 server:
-  port: 7047
+  port: 7048
   servlet:
    session:
      cookie:
@@ -8,4 +8,4 @@ server:
 #服务的名称
 spring:
   application:
-    name: misco-docker-hello
+    name: misco-docker-hello-test
