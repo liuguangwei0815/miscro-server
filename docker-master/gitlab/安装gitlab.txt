@@ -46,6 +46,7 @@ postgresql['max_worker_processes'] = 8
 docker run \
 --restart=always \
 --name hujz.gitlab \
+--publish 1443:443 --publish 18080:80 \
 --network hujz \
 -v /root/gitlab/gitlab.rb:/etc/gitlab/gitlab.rb \
 -v /data/gitlab/opt:/var/opt/gitlab \
@@ -59,3 +60,16 @@ docker exec -i hujz.gitlab gitlab-rake gitlab:backup:create
 
 # 登录
 修改root用户密码
+
+
+
+#自己设置
+docker run --name='hujz.gitlab' -d \
+--net=hujz \
+--publish 1443:443 --publish 18080:80 \
+--restart always \
+--volume /root/docker/gitlab/config:/etc/gitlab \
+--volume /root/docker/gitlab/logs:/var/log/gitlab \
+--volume /root/docker/gitlab/data:/var/opt/gitlab \
+--privileged=true \
+gitlab/gitlab-ce:latest
