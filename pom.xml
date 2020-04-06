@@ -120,6 +120,7 @@
 		<module>misco-cache</module>
 		<module>misco-rocketmq</module>
 		<module>misco-docker-hello</module>
+		<module>misco-spring</module>
 	</modules>
 
 </project>

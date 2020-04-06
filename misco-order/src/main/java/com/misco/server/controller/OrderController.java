@@ -46,6 +46,8 @@ public class OrderController {
 	
 	@GetMapping("/test")
 	public String teee() {
+		System.out.println("我是小明");
+		this.name = "Iam jack hhh";
 		return name;
 	}
 
