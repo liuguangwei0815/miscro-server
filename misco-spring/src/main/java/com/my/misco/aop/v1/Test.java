@@ -8,6 +8,6 @@ public class Test {
 		AnnotationConfigApplicationContext an = new AnnotationConfigApplicationContext(Config.class);
 		Caculator bean = an.getBean(Caculator.class);
 		bean.cacu(8, 8);
-		//bean.cacu(3, 0);
+		an.close();
 	}
 }
