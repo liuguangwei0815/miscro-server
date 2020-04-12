@@ -1,0 +1,4 @@
+com\misco\server\MiscoOrderApplication.class
+com\misco\server\WeatherSource.class
+com\misco\server\WeatherServivce.class
+com\misco\server\WeatherConfig.class

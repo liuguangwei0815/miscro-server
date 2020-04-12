@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationContextInitializer=com.misco.server.initzer.MyInitiazer
+#我的监听器
+org.springframework.context.ApplicationListener=com.misco.server.listener.FirstListener
+#smartApplicatioonListener
+org.springframework.context.ApplicationListener=com.misco.server.listener.FourListener

@@ -121,6 +121,7 @@
 		<module>misco-rocketmq</module>
 		<module>misco-docker-hello</module>
 		<module>misco-spring</module>
+		<module>misco-springboot</module>
 	</modules>
 
 </project>
