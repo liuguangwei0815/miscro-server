@@ -1,9 +1,0 @@
-server:
-  port: ${env.dev2port}
-  servlet:
-   session:
-     cookie:
-       name: SESSIONMISCOPRODUCTCONSUL${server.port}
-
-    
-
